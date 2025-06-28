@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2 STAR FAMILY - Registration</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #141e30, #243b55);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 20px #00f7ff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00f7ff;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00b9c1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>2 STAR FAMILY</h2>
+  <form id="userForm">
+    <input type="text" id="fullName" placeholder="Full Name" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="text" id="contactPerson" placeholder="Contact Person" required />
+    <input type="text" id="studentId" placeholder="Student ID" required />
+    <input type="text" id="referrerId" placeholder="Referrer ID" required />
+    <input type="text" id="batchNumber" placeholder="Batch Number" required />
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+<script>
+  // ✅ আপনার Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDkqrtYGZTTb80JuoEUimqk-D9olur11hs",
+    authDomain: "star-family-b2201.firebaseapp.com",
+    databaseURL: "https://star-family-b2201-default-rtdb.firebaseio.com",
+    projectId: "star-family-b2201",
+    appId: "1:1052096614963:android:7288da8bc7c8717ee74946"
+  };
+
+  // ✅ Firebase init
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  document.getElementById("userForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const fullName = document.getElementById("fullName").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const contactPerson = document.getElementById("contactPerson").value;
+    const studentId = document.getElementById("studentId").value;
+    const referrerId = document.getElementById("referrerId").value;
+    const batchNumber = document.getElementById("batchNumber").value;
+
+    // ✅ Firebase DB তে তথ্য পাঠানো
+    database.ref("team_members/" + studentId).set({
+      fullName,
+      phone,
+      email,
+      contactPerson,
+      studentId,
+      referrerId,
+      batchNumber
+    }).then(() => {
+      alert("✅ Registration Successful");
+      document.getElementById("userForm").reset();
+    }).catch((err) => {
+      alert("❌ Error: " + err.message);
+    });
+  });
+</script>
+
+</body>
+</html>
